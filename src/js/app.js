@@ -1,3 +1,5 @@
+import '../css/style.scss'
+
 const test = text => {
   console.log(text);
 }
