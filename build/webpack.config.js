@@ -6,6 +6,6 @@ module.exports = (env, argv) => {
     return devConfig;
   }
   if (argv.mode === 'production') {
-    return devConfig;
+    return prodConfig;
   }
 }

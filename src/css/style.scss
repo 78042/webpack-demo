@@ -1,3 +1,6 @@
+$color: #abcdef;
 body {
-	background-color: #abcdef;
+	background-color: $color;
+	font-size: 100px;
+	transform: translate(10px);
 }

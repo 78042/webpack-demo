@@ -1,5 +1,6 @@
 const path = require('path');
 const os = require('os');
+const webpack = require('webpack');
 const merge = require('webpack-merge');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const common = require('./webpack.common.js');
@@ -28,7 +29,14 @@ module.exports = merge(common,{
 		rules: [
 			{
     		test: /\.scss$/,
-    		use: ['style-loader','css-loader','sass-loader'],
+    		use: ['style-loader','css-loader','sass-loader',{
+					loader: 'postcss-loader',
+					options: {
+						plugins: [
+							require("autoprefixer")
+						]
+					}
+			}],
     		include: getPath('../src')
     	}
 		]
@@ -38,7 +46,8 @@ module.exports = merge(common,{
       compilationSuccessInfo: {
         messages: [`Your application is running here: http://${devServerConfig.host}:${devServerConfig.port}`],
       }
-    })
+		}),
+		new webpack.HotModuleReplacementPlugin()
 	],
 	devServer: {
 		host: devServerConfig.host,
@@ -50,7 +59,9 @@ module.exports = merge(common,{
 		},
 		open: true,
 		overlay: true,
-		quiet: true,
+		quiet: true,//for FriendlyErrorsPlugin
+		hot: true,//在js里if(module.hot){module.hot.accept()}
+		clientLogLevel: 'none'//
 	},
 	devtool: 'cheap-module-eval-source-map'
 })
