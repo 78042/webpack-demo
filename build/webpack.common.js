@@ -1,18 +1,26 @@
-const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
+const utils = require('./utils')
+const dir = require('./path.config')
 
-function getPath(_path) {
-  return path.join(__dirname, _path);
+const handleEntry = (arr) => {
+	const enter = {};
+	arr.forEach(item => {
+		enter[dir.JSDIR+item[0]] = item[1];
+	});
+	return enter;
 }
 
+//webpack 打包会自动剔除引入的没用模块
 module.exports = {
-	entry: {
-  	app: getPath('../src/js/app.js')
-	},
+	entry: handleEntry(
+		[
+			['app',utils.getPath(dir.JSDIR + 'app.js')]
+		]
+	),
 	output: {
-  	path: getPath('../dist'),
-  	filename: '[name].[hash:8].js',
-  	publicPath: '/public'
+  	path: utils.getPath(dir.OUTPUTDIR),
+  	filename: '[name].[chunkhash:8].js',
+  	// publicPath: '/public' //一般cdn使用
 	},
 	module: {
   	rules: [
@@ -25,7 +33,7 @@ module.exports = {
 	},
 	plugins: [
 		new htmlWebpackPlugin({
-	    template: getPath('../src/index.html')
+	    template: utils.getPath(dir.RESOURCEDIR + '/index.html')
 	  })
 	]
 }

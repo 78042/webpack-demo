@@ -1,13 +1,12 @@
-const path = require('path');
 const os = require('os');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const common = require('./webpack.common.js');
+const common = require('./webpack.common');
+const utils = require('./utils')
+const dir = require('./path.config')
 
-function getPath(_path) {
-  return path.join(__dirname, _path);
-}
+
 const getIP = () => {
   const _desc = os.networkInterfaces();
   for (let k in _desc) {
@@ -25,19 +24,15 @@ const devServerConfig = {
 
 module.exports = merge(common,{
 	mode: 'development',
+	output: {
+		filename: '[name].[hash:8].js',
+	},
 	module: {
 		rules: [
 			{
     		test: /\.scss$/,
-    		use: ['style-loader','css-loader','sass-loader',{
-					loader: 'postcss-loader',
-					options: {
-						plugins: [
-							require("autoprefixer")
-						]
-					}
-			}],
-    		include: getPath('../src')
+    		use: ['style-loader','css-loader','sass-loader'],
+    		include: utils.getPath(dir.RESOURCEDIR)
     	}
 		]
 	},
@@ -52,11 +47,11 @@ module.exports = merge(common,{
 	devServer: {
 		host: devServerConfig.host,
 		port: devServerConfig.port,
-		contentBase: getPath('../dist'),
-		publicPath: '/public',
-		historyApiFallback: {
-		  index: '/public/index.html'
-		},
+		contentBase: utils.getPath(dir.OUTPUTDIR),
+		// publicPath: '/public',
+		// historyApiFallback: {
+		//   index: '/public/index.html'
+		// },
 		open: true,
 		overlay: true,
 		quiet: true,//for FriendlyErrorsPlugin
