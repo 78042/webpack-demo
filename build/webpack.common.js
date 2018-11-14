@@ -1,6 +1,6 @@
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const utils = require('./utils')
-const dir = require('./path.config')
+const dir   = require('./path.config')
 
 const handleEntry = (arr) => {
 	const enter = {};
@@ -18,15 +18,15 @@ module.exports = {
 		]
 	),
 	output: {
-  	path: utils.getPath(dir.OUTPUTDIR),
+  	path    : utils.getPath(dir.OUTPUTDIR),
   	filename: '[name].[chunkhash:8].js',
   	// publicPath: '/public' //一般cdn使用
 	},
 	module: {
   	rules: [
     	{
-      	test: /\.js$/,
-      	loader: 'babel-loader',
+      	test   : /\.js$/,
+      	loader : 'babel-loader',
       	exclude: /node_modules/
     	}
   	]
@@ -34,6 +34,9 @@ module.exports = {
 	plugins: [
 		new htmlWebpackPlugin({
 	    template: utils.getPath(dir.RESOURCEDIR + '/index.html')
+	  }),
+		new htmlWebpackPlugin({
+	    template: utils.getPath(dir.RESOURCEDIR + '/user.html')
 	  })
 	]
 }

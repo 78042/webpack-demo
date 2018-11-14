@@ -6,5 +6,4 @@ const test = text => {
   console.log(`this is weq ${text}`)
 }
 test('hi');
-info.info()
-
+info.info();
