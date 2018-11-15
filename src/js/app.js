@@ -1,9 +1,11 @@
 import '../css/style.scss'
-import { user,info } from  './user.js'
+import { child,info } from  './app.child'
+import { common } from './common'
 
 const test = text => {
   console.log(text);
   console.log(`this is weq ${text}`)
 }
 test('hi');
-info.info();
+child.child();
+common.common();

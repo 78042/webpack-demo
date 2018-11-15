@@ -1,10 +1,4 @@
-export const user = {
-  user() {
-    console.log('user')
-  }
-}
-export const info = {
-  info() {
-    console.log('info');
-  }
-}
+import { common } from './common'
+
+console.log('user')
+common.common();

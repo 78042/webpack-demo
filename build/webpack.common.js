@@ -14,7 +14,8 @@ const handleEntry = (arr) => {
 module.exports = {
 	entry: handleEntry(
 		[
-			['app',utils.getPath(dir.JSDIR + 'app.js')]
+			['app',utils.getPath(dir.JSDIR + 'app.js')],
+			['user',utils.getPath(dir.JSDIR + 'user.js')]
 		]
 	),
 	output: {
@@ -33,10 +34,24 @@ module.exports = {
 	},
 	plugins: [
 		new htmlWebpackPlugin({
-	    template: utils.getPath(dir.RESOURCEDIR + '/index.html')
+			template: utils.getPath(dir.RESOURCEDIR + '/index.html'),
+			filename: 'index.html',
+			title: 'index',
+			chunks: [
+				`${dir.JSDIR}runtime`,
+				`${dir.JSDIR}app`,
+				`${dir.JSDIR}common`,
+			]
 	  }),
 		new htmlWebpackPlugin({
-	    template: utils.getPath(dir.RESOURCEDIR + '/user.html')
+			template: utils.getPath(dir.RESOURCEDIR + '/user.html'),
+			filename: 'user.html',
+			title: 'user',
+			chunks: [
+				`${dir.JSDIR}runtime`,
+				`${dir.JSDIR}user`,
+				`${dir.JSDIR}common`,
+			]
 	  })
 	]
 }

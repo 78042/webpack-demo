@@ -33,6 +33,12 @@ module.exports = merge(common,{
 		//提取webpack的代码文件
 		runtimeChunk: {
 			name: dir.JSDIR + 'runtime'
+		},
+		splitChunks: {
+			chunks: 'all',
+			minSize: 0,
+			minChunks: 2,
+			name: dir.JSDIR + 'common'
 		}
 	},
 	stats: {
