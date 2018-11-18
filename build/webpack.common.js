@@ -36,8 +36,8 @@ module.exports = {
 		new htmlWebpackPlugin({
 			template: utils.getPath(dir.RESOURCEDIR + '/index.html'),
 			filename: 'index.html',
-			title: 'index',
-			chunks: [
+			title   : 'index',
+			chunks  : [
 				`${dir.JSDIR}runtime`,
 				`${dir.JSDIR}app`,
 				`${dir.JSDIR}common`,
@@ -46,8 +46,8 @@ module.exports = {
 		new htmlWebpackPlugin({
 			template: utils.getPath(dir.RESOURCEDIR + '/user.html'),
 			filename: 'user.html',
-			title: 'user',
-			chunks: [
+			title   : 'user',
+			chunks  : [
 				`${dir.JSDIR}runtime`,
 				`${dir.JSDIR}user`,
 				`${dir.JSDIR}common`,

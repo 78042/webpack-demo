@@ -1,20 +1,20 @@
 const merge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const common = require('./webpack.common.js');
-const utils = require('./utils')
-const dir = require('./path.config')
+const common            = require('./webpack.common.js');
+const utils             = require('./utils')
+const dir               = require('./path.config')
 
 
 module.exports = merge(common,{
-	mode: 'production',
+	mode  : 'production',
 	module: {
 		rules: [
 			{
     		test: /\.scss$/,
-    		use: ExtractTextPlugin.extract({
+    		use : ExtractTextPlugin.extract({
 					// fallback: 'style-loader',
 					use: ['css-loader', 'sass-loader', {
-						loader: 'postcss-loader',
+						loader : 'postcss-loader',
 						options: {
 							plugins: [
 								require("autoprefixer")
@@ -35,16 +35,21 @@ module.exports = merge(common,{
 			name: dir.JSDIR + 'runtime'
 		},
 		splitChunks: {
-			chunks: 'all',
-			minSize: 0,
-			minChunks: 2,
-			name: dir.JSDIR + 'common'
+			cacheGroups: {
+				common1: {
+					chunks: 'all',
+					minChunks: 2,
+					minSize: 0,
+					test: /common/,
+					name: dir.JSDIR + 'common'
+				}
+			}
 		}
 	},
 	stats: {
-		chunks: false,
-		children: false,
-		modules: false,
+		chunks     : false,
+		children   : false,
+		modules    : false,
 		entrypoints: false
 	},
 	devtool: 'source-map'

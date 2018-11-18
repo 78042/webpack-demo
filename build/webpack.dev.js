@@ -1,10 +1,10 @@
 const os = require('os');
-const webpack = require('webpack');
-const merge = require('webpack-merge');
+const webpack              = require('webpack');
+const merge                = require('webpack-merge');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const common = require('./webpack.common');
-const utils = require('./utils')
-const dir = require('./path.config')
+const common               = require('./webpack.common');
+const utils                = require('./utils')
+const dir                  = require('./path.config')
 
 
 const getIP = () => {
@@ -23,15 +23,15 @@ const devServerConfig = {
 }
 
 module.exports = merge(common,{
-	mode: 'development',
+	mode  : 'development',
 	output: {
 		filename: '[name].[hash:8].js',
 	},
 	module: {
 		rules: [
 			{
-    		test: /\.scss$/,
-    		use: ['style-loader','css-loader','sass-loader'],
+    		test   : /\.scss$/,
+    		use    : ['style-loader','css-loader','sass-loader'],
     		include: utils.getPath(dir.RESOURCEDIR)
     	}
 		]
@@ -39,24 +39,24 @@ module.exports = merge(common,{
 	plugins: [
     new FriendlyErrorsPlugin({
       compilationSuccessInfo: {
-        messages: [`Your application is running here: http://${devServerConfig.host}:${devServerConfig.port}`],
+        messages: [`The application is running here: http://${devServerConfig.host}:${devServerConfig.port}`],
       }
 		}),
 		new webpack.HotModuleReplacementPlugin()
 	],
 	devServer: {
-		host: devServerConfig.host,
-		port: devServerConfig.port,
+		host       : devServerConfig.host,
+		port       : devServerConfig.port,
 		contentBase: utils.getPath(dir.OUTPUTDIR),
 		// publicPath: '/public',
 		// historyApiFallback: {
 		//   index: '/public/index.html'
 		// },
-		open: true,
-		overlay: true,
-		quiet: true,//for FriendlyErrorsPlugin
-		hot: true,//在js里if(module.hot){module.hot.accept()}
-		clientLogLevel: 'none'//
+		open          : true,
+		overlay       : true,
+		quiet         : true,   //for FriendlyErrorsPlugin
+		hot           : true,   //在js里if(module.hot){module.hot.accept()}
+		clientLogLevel: 'none'  //
 	},
 	devtool: 'cheap-module-eval-source-map'
 })
