@@ -5,7 +5,7 @@ const dir   = require('./path.config')
 const handleEntry = (arr) => {
 	const enter = {};
 	arr.forEach(item => {
-		enter[dir.JSDIR+item[0]] = item[1];
+		enter['js/'+item[0]] = item[1];
 	});
 	return enter;
 }
@@ -29,7 +29,24 @@ module.exports = {
       	test   : /\.js$/,
       	loader : 'babel-loader',
       	exclude: /node_modules/
-    	}
+			},
+			{
+				test: /\.(png|jpg|gif|webp)/,
+				use: [
+					{
+						loader: 'url-loader',
+						options: {
+							name: 'img/[name]-[hash:7].[ext]',
+							publicPath: '/',
+							limit: 3072
+						}
+					}
+				]
+			},
+			{
+        test: /\.html$/,
+        loader: 'html-withimg-loader'
+   		}
   	]
 	},
 	plugins: [
@@ -38,9 +55,9 @@ module.exports = {
 			filename: 'index.html',
 			title   : 'index',
 			chunks  : [
-				`${dir.JSDIR}runtime`,
-				`${dir.JSDIR}app`,
-				`${dir.JSDIR}common`,
+				`js/runtime`,
+				`js/app`,
+				`js/common`,
 			]
 	  }),
 		new htmlWebpackPlugin({
@@ -48,9 +65,9 @@ module.exports = {
 			filename: 'user.html',
 			title   : 'user',
 			chunks  : [
-				`${dir.JSDIR}runtime`,
-				`${dir.JSDIR}user`,
-				`${dir.JSDIR}common`,
+				`js/runtime`,
+				`js/user`,
+				`js/common`,
 			]
 	  })
 	]

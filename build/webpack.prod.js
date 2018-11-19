@@ -27,12 +27,12 @@ module.exports = merge(common,{
 		]
 	},
 	plugins: [
-		new ExtractTextPlugin(dir.CSSDIR + 'main.[md5:contenthash:hex:8].css')
+		new ExtractTextPlugin('css/main.[md5:contenthash:hex:8].css')
 	],
 	optimization: {
 		//提取webpack的代码文件
 		runtimeChunk: {
-			name: dir.JSDIR + 'runtime'
+			name: 'js/runtime'
 		},
 		splitChunks: {
 			cacheGroups: {
@@ -41,7 +41,7 @@ module.exports = merge(common,{
 					minChunks: 2,
 					minSize: 0,
 					test: /common/,
-					name: dir.JSDIR + 'common'
+					name: 'js/common'
 				}
 			}
 		}
