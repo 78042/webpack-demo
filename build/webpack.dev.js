@@ -1,6 +1,7 @@
-const os = require('os');
+const os                   = require('os');
 const webpack              = require('webpack');
 const merge                = require('webpack-merge');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const common               = require('./webpack.common');
 const utils                = require('./utils')
@@ -30,9 +31,14 @@ module.exports = merge(common,{
 	module: {
 		rules: [
 			{
-    		test   : /\.scss$/,
-    		use    : ['style-loader','css-loader','sass-loader'],
-    		include: utils.getPath(dir.RESOURCEDIR)
+    		// test   : /\.scss$/,
+    		test: /\.scss$/,
+        use: [
+					'css-hot-loader',
+					MiniCssExtractPlugin.loader,
+					'css-loader',
+					"sass-loader"
+				],
     	}
 		]
 	},
@@ -42,7 +48,12 @@ module.exports = merge(common,{
         messages: [`The application is running here: http://${devServerConfig.host}:${devServerConfig.port}`],
       }
 		}),
-		new webpack.HotModuleReplacementPlugin()
+		new MiniCssExtractPlugin({
+			filename: "[name].css",
+			chunkFilename: "[id].css"
+		})
+		// new webpack.NamedModulesPlugin(),
+		// new webpack.HotModuleReplacementPlugin()
 	],
 	devServer: {
 		host       : devServerConfig.host,
@@ -55,7 +66,7 @@ module.exports = merge(common,{
 		open          : true,
 		overlay       : true,
 		quiet         : true,   //for FriendlyErrorsPlugin
-		hot           : true,   //在js里if(module.hot){module.hot.accept()}
+		//hot           : true,   //在js里if(module.hot){module.hot.accept()}
 		clientLogLevel: 'none'  //
 	},
 	devtool: 'cheap-module-eval-source-map'
