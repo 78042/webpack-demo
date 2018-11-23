@@ -20,7 +20,8 @@ module.exports = merge(common,{
 								require("autoprefixer")
 							]
 						}
-					}]
+					}],
+					publicPath: '../' //解决css文件图片路径问题
 				}),
     		include: utils.getPath(dir.RESOURCEDIR)
     	}

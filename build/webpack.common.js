@@ -37,7 +37,7 @@ module.exports = {
 						loader: 'url-loader',
 						options: {
 							name: 'img/[name]-[hash:7].[ext]',
-							publicPath: '/',
+							// publicPath: 'http://xxx', //统一html/css中图片路径
 							limit: 3072
 						}
 					}
@@ -70,5 +70,8 @@ module.exports = {
 				`js/common`,
 			]
 	  })
-	]
+	],
+	externals: {
+		jquery: 'jQuery'
+	}
 }

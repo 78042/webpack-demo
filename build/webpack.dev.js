@@ -35,7 +35,12 @@ module.exports = merge(common,{
     		test: /\.scss$/,
         use: [
 					'css-hot-loader',
-					MiniCssExtractPlugin.loader,
+					{
+						loader: MiniCssExtractPlugin.loader,
+						options: {
+							publicPath: '../' //解决img路劲问题
+						}
+					},
 					'css-loader',
 					"sass-loader"
 				],
