@@ -32,7 +32,7 @@ module.exports = merge(common,{
 		rules: [
 			{
     		// test   : /\.scss$/,
-    		test: /\.scss$/,
+    		test: /\.(scss|css)$/,
         use: [
 					'css-hot-loader',
 					{

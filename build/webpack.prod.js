@@ -1,5 +1,7 @@
 const merge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const cleanWebpackPlugin = require('clean-webpack-plugin');
 const common            = require('./webpack.common.js');
 const utils             = require('./utils')
 const dir               = require('./path.config')
@@ -10,7 +12,7 @@ module.exports = merge(common,{
 	module: {
 		rules: [
 			{
-    		test: /\.scss$/,
+    		test: /\.(scss|css)$/,
     		use : ExtractTextPlugin.extract({
 					// fallback: 'style-loader',
 					use: ['css-loader', 'sass-loader', {
@@ -22,27 +24,39 @@ module.exports = merge(common,{
 						}
 					}],
 					publicPath: '../' //解决css文件图片路径问题
-				}),
-    		include: utils.getPath(dir.RESOURCEDIR)
+				})
     	}
 		]
 	},
 	plugins: [
-		new ExtractTextPlugin('css/main.[md5:contenthash:hex:8].css')
+		new cleanWebpackPlugin(['../dist']),
+		new ExtractTextPlugin('css/main.[md5:contenthash:hex:8].css'),
+		// new CopyWebpackPlugin([
+		// 	{ from: 'src/vendor/', to: 'vendor/' }
+		// ]),
+		
 	],
 	optimization: {
 		//提取webpack的代码文件
-		runtimeChunk: {
-			name: 'js/runtime'
-		},
+		// runtimeChunk: {
+		// 	name: 'js/runtime'
+		// },
 		splitChunks: {
 			cacheGroups: {
+				vendors: {
+					chunks: 'all',
+					minChunks: 1,
+					minSize: 0,
+					test: /jquery/,
+					name: 'js/vendor',
+          reuseExistingChunk: true
+        },
 				common1: {
 					chunks: 'all',
 					minChunks: 2,
 					minSize: 0,
 					test: /common/,
-					name: 'js/common'
+					name: 'js/commonjs'
 				}
 			}
 		}
