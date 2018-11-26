@@ -1,6 +1,7 @@
 const merge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const cleanWebpackPlugin = require('clean-webpack-plugin');
 const common            = require('./webpack.common.js');
 const utils             = require('./utils')
@@ -13,24 +14,42 @@ module.exports = merge(common,{
 		rules: [
 			{
     		test: /\.(scss|css)$/,
-    		use : ExtractTextPlugin.extract({
-					// fallback: 'style-loader',
-					use: ['css-loader', 'sass-loader', {
+    		// use : ExtractTextPlugin.extract({
+				// 	// fallback: 'style-loader',
+				// 	use: ['css-loader', 'sass-loader', {
+				//		loader : 'postcss-loader',
+				//		options: {
+				//			plugins: [
+				//				require("autoprefixer")
+				//			]
+				//		}
+				// 	}],
+				// 	publicPath: '../' //解决css文件图片路径问题
+				// })
+				use: [
+					{
+						loader: MiniCssExtractPlugin.loader,
+						options: {
+							publicPath: '../' //解决img路劲问题
+						}
+					},
+          'css-loader',
+          'sass-loader',
+					{
 						loader : 'postcss-loader',
 						options: {
 							plugins: [
 								require("autoprefixer")
 							]
 						}
-					}],
-					publicPath: '../' //解决css文件图片路径问题
-				})
+					}
+        ],
     	}
 		]
 	},
 	plugins: [
 		new cleanWebpackPlugin(['../dist']),
-		new ExtractTextPlugin('css/main.[md5:contenthash:hex:8].css'),
+		// new ExtractTextPlugin('css/main.[md5:contenthash:hex:8].css'),
 		// new CopyWebpackPlugin([
 		// 	{ from: 'src/vendor/', to: 'vendor/' }
 		// ]),
@@ -48,7 +67,7 @@ module.exports = merge(common,{
 					minChunks: 1,
 					minSize: 0,
 					test: /jquery/,
-					name: 'js/vendor',
+					name: 'vendor',
           reuseExistingChunk: true
         },
 				common1: {
@@ -56,7 +75,7 @@ module.exports = merge(common,{
 					minChunks: 2,
 					minSize: 0,
 					test: /common/,
-					name: 'js/commonjs'
+					name: 'commonjs'
 				}
 			}
 		}

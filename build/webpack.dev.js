@@ -42,7 +42,15 @@ module.exports = merge(common,{
 						}
 					},
 					'css-loader',
-					"sass-loader"
+          'sass-loader',
+					{
+						loader : 'postcss-loader',
+						options: {
+							plugins: [
+								require("autoprefixer")
+							]
+						}
+					}
 				],
     	}
 		]
@@ -53,10 +61,7 @@ module.exports = merge(common,{
         messages: [`The application is running here: http://${devServerConfig.host}:${devServerConfig.port}`],
       }
 		}),
-		new MiniCssExtractPlugin({
-			filename: "[name].css",
-			chunkFilename: "[id].css"
-		})
+		
 		// new webpack.NamedModulesPlugin(),
 		// new webpack.HotModuleReplacementPlugin()
 	],
