@@ -31,16 +31,10 @@ module.exports = merge(common,{
 	module: {
 		rules: [
 			{
-    		// test   : /\.scss$/,
     		test: /\.(scss|css)$/,
         use: [
 					'css-hot-loader',
-					{
-						loader: MiniCssExtractPlugin.loader,
-						options: {
-							publicPath: '../' //解决img路劲问题
-						}
-					},
+					'style-loader',
 					'css-loader',
           'sass-loader',
 					{
